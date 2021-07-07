@@ -1,1 +1,4 @@
 .env
+celery.log
+celery.beat.log
+celerybeat-schedule.db
