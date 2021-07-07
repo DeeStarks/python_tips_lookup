@@ -2,78 +2,91 @@
 {% load markdownify %}
 
 {% block content %}
-<div class="nav d-flex justify-content-between bg-light">
+<div class="nav bg-light">
     <div class="container py-3">
-        <div id="custom-search-input w-100">
-            <div class="input-group col-md-12">
-                <input type="text" class="search-query form-control" placeholder="Search python tips" name="q">
-                <span class="input-group-btn">
-                    <button class="btn btn-danger" type="button">
-                        <i class="bi bi-search"></i>
-                    </button>
-                </span>
+        <div class="d-flex justify-content-between">
+            <div class="title font-weight-bold d-flex align-self-center"><a href="{% url 'index:home' %}" style="color: #248dc1;">TIPS NAVIGATOR</a></div>
+            <div id="custom-search-input w-100">
+                <form class="input-group col-md-12 w-100">                    
+                    <input type="text" class="search-query form-control" placeholder="Search python tips" name="q" value="{{ request.GET.q }}">
+                    <span class="input-group-btn">
+                        <button class="btn" style="background-color: #248dc1; color: #fff; border-radius: 0;" type="submit">
+                            <i class="bi bi-search"></i>
+                        </button>
+                    </span>
+                </form>
             </div>
         </div>
     </div>
 </div>
 <div class="container">
     <div class="py-2 border-bottom">
-    <section class="col-xs-12 col-sm-6 col-md-12 my-2">
-        {% for tip in tips %}
-		<article class="search-result row m-3 border-bottom">
-			<div class="col-xs-12 col-sm-12 col-md-2">
-				<ul class="meta-search">
-					<li><i class="fa fa-user"></i> <a href="#"><span>{{ tip.poster }}</span></a></li>
-					<li><i class="fa fa-thumbs-up"></i> <span>-</span></li>
-					<li><i class="fa fa-retweet"></i> <span>-</span></li>
-					<li><i class="fa fa-calendar"></i> <span>{{ tip.post_date }}</span></li>
-					<li><i class="bi bi-clock"></i> <span>{{ tip.post_time }}</span></li>
-				</ul>
-			</div>
-			<div class="col-xs-12 col-sm-12 col-md-10 excerpet">
-				<p>{{ tip.tip|markdownify|linebreaksbr }}</p>
-			</div>
-			<span class="clearfix borda"></span>
-		</article>
-        {% endfor %}
-	</section>
-    <div class="d-flex justify-content-center">
-        <nav aria-label="Page navigation">
-            {% if has_other_pages %}
-            <ul class="pagination">
-                {% if has_previous %}
-                <li class="page-item">
-                    <a href="?page={{ previous_page_number }}" class="page-link" tabindex="-1">&laquo;</a>
-                </li>
-                {% else %}
-                <li class="disabled page-item">
-                    <a class="page-link bg-light">&laquo;</a>
-                </li>
-                {% endif %}
+        {% if request.GET.q %}
+        <div class="py-2 border-bottom text-center"><span class="font-weight-bold">{{ results_count }}</span> results found.</div>
+        {% endif %}
+        <section class="my-2">
+            {% for tip in tips %}
+            <article class="search-result row m-3 border-bottom">
+                <div class="col-xs-12 col-sm-12 col-md-2">
+                    <ul class="meta-search">
+                        <li><i class="fa fa-user"></i> <a href="#"><span>{{ tip.poster }}</span></a></li>
+                        <li><i class="fa fa-thumbs-up"></i> <span>-</span></li>
+                        <li><i class="fa fa-retweet"></i> <span>-</span></li>
+                        <li><i class="fa fa-calendar"></i> <span>{{ tip.post_date }}</span></li>
+                        <li><i class="bi bi-clock"></i> <span>{{ tip.post_time }}</span></li>
+                    </ul>
+                </div>
+                <div class="col-xs-12 col-sm-12 col-md-10 excerpet">
+                    <p>{{ tip.tip|markdownify|linebreaksbr }}</p>
+                </div>
+                <span class="clearfix borda"></span>
+            </article>
+            {% endfor %}
+        </section>
+        <div class="d-flex justify-content-center">
+            <nav aria-label="Page navigation">
+                {% if has_other_pages %}
+                <ul class="pagination">
+                    {% if has_previous %}
+                    <li class="page-item">
+                        <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ previous_page_number }}" class="page-link" tabindex="-1">&laquo;</a>
+                    </li>
+                    {% else %}
+                    <li class="disabled page-item">
+                        <a class="page-link bg-light">&laquo;</a>
+                    </li>
+                    {% endif %}
 
-                <li class="page-item {% if number == 1 %}active{% endif %}">
-                    <a class="page-link" href="?page=1">1 <span class="sr-only">(current)</span></a>
-                </li>
+                    <li class="page-item {% if number == 1 %}active{% endif %}">
+                        <a class="page-link" href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page=1">1 <span class="sr-only">(current)</span></a>
+                    </li>
 
-                {% if count > 2 %}
-                <li class="px-2 py-1 font-weight-bold">...</li>
-                <li class="page-item {% if number == count %}active{% endif %}">
-                    <a class="page-link" href="?page={{ count }}">{{ count }} <span class="sr-only">(current)</span></a>
-                </li>
-                {% endif %}
+                    {% if count > 2 %}
+                    {% if number != 1 and number != count %}
+                    <li class="px-2 py-1 font-weight-bold">...</li>
+                    <li class="page-item active">
+                        <a class="page-link" href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ number }}">{{ number }} <span class="sr-only">(current)</span></a>
+                    </li>
+                    {% endif %}
+                    <li class="px-2 py-1 font-weight-bold">...</li>
+                    <li class="page-item {% if number == count %}active{% endif %}">
+                        <a class="page-link" href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ count }}">{{ count }} <span class="sr-only">(current)</span></a>
+                    </li>
+                    {% endif %}
 
-                {% if has_next %}
-                <li class="page-item">
-                    <a href="?page={{ next_page_number }}" class="page-link">&raquo;</a>
-                </li>
-                {% else %}
-                <li class="page-item disabled">
-                    <a class="page-link bg-light">&raquo;</a>
-                </li>
+                    {% if has_next %}
+                    <li class="page-item">
+                        <a href="?{% if request.GET.q %}q={{ request.GET.q }}&{% endif %}page={{ next_page_number }}" class="page-link">&raquo;</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item disabled">
+                        <a class="page-link bg-light">&raquo;</a>
+                    </li>
+                    {% endif %}
+                </ul>
                 {% endif %}
-            </ul>
-            {% endif %}
-        </nav>
+            </nav>
+        </div>
     </div>
 </div>
 {% endblock %}
