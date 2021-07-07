@@ -16,7 +16,7 @@ These spreadsheets are to be downloaded and saved in the `./data_files/` folder.
 > - Setup rabbitmq for message queueing. Find out how to install rabbitmq [here](https://www.rabbitmq.com/download.html)
 
 - Setup virtual environment using using `virtualenv` or `pipenv` or any other.
-- Create a `.env` file in the base directory - (`tips_navigator`), copy/paste the following fields, set them up and add their respective values.
+- Create a `.env` file in the base directory - (`./tips_navigator/`), copy/paste the following fields, set them up and add their respective values.
 ```
 DB_NAME=
 DB_USERNAME=
