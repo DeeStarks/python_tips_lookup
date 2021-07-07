@@ -1,4 +1,6 @@
-@import "http://fonts.googleapis.com/css?family=Roboto:300,400,500,700";
+*{
+    font-family: sans-serif;
+}
 
 #custom-search-input button {
     border: 0;
@@ -19,14 +21,23 @@ hgroup {
     border-bottom: 1px solid #ccc; 
 }
 hgroup h1 { 
-    font: 500 normal 1.625em "Roboto",Arial,Verdana,sans-serif; 
     color: #2a3644; margin-top: 0; 
     line-height: 1.15; 
 }
 hgroup h2.lead { 
-    font: normal normal 1.125em "Roboto",Arial,Verdana,sans-serif; 
     color: #2a3644; margin: 0; 
     padding-bottom: 10px; 
+}
+
+blockquote {
+    background-color: #eeeeee;
+    border: 1px solid #c5c5c5;
+    color: #414141;
+    font-weight: 600;
+    font-size: 14px;
+    padding: 0 20px 20px 20px;
+    border-radius: 5px;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 .search-result .poster-img{
@@ -53,8 +64,8 @@ hgroup h2.lead {
     padding-left: 0 !important; 
     list-style: none;  }
 .search-result ul li { 
-    font: 400 normal .85em "Roboto",Arial,Verdana,sans-serif;  
     line-height: 30px; 
+    font-size: 13px;
 }
 .search-result ul li i { 
     padding-right: 5px; 
@@ -63,16 +74,12 @@ hgroup h2.lead {
     position: relative; 
 }
 .search-result h3 { 
-    font: 500 normal 1.375em "Roboto",Arial,Verdana,sans-serif; 
     margin-top: 0 !important; 
     margin-bottom: 10px !important; 
 }
 .search-result h3 > a, .search-result i { 
     color: #248dc1 !important; 
 }
-.search-result p { 
-    font: normal normal 1.125em "Roboto",Arial,Verdana,sans-serif; 
-} 
 .search-result span.plus a { 
     background-color: #248dc1; 
     padding: 5px 5px 3px 5px; 
