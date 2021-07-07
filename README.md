@@ -1,11 +1,11 @@
 # TWITTER PYTHON TIPS NAVIGATOR
 
-A web app that helps to navigate through collection of tips from [@python_tips](https://twitter.com/python_tip) on twitter.
+A web app that helps to navigate through collection of tips from [@python_tips](https://twitter.com/python_tip) on twitter, but from their [spreadsheet](https://t.co/oARrOmrin7).
 
-It fetches csv files from `./data_files/` periodically every 1 minute using celery and save in the database. The csv layout should be in this format:
+These spreadsheets are to be downloaded and saved in the `./data_files/` folder. Then the app fetches the csv files inside the folder periodically every 1 minute using celery and saves in the database. The csv layout should be in this format:
 
 |   Timestamp           |   Python Tip  |   Your name or Twitter id |   Your email          |
-|   :---                |   :----:      |   :----:                  |               ---:    |
+|   ---                 |   ---         |   ---                     |   ---                 |
 |   2/3/2017 0:50:25    |   Tip         |   @OnojaDaniel20          |   example@mail.com    |
 
 
