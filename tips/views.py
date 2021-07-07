@@ -1,4 +1,5 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect, reverse
+from django.contrib.postgres.search import SearchQuery, SearchRank, SearchVector
 from django.core.paginator import Paginator
 from datetime import datetime
 from .models import PythonTip
@@ -9,7 +10,17 @@ def home(request):
         "tips": []
     }
     tips_obj = PythonTip.objects.all().order_by("-id")
-    paginator = Paginator(tips_obj, 20)
+    # Lookup takes place here
+    if 'q' in request.GET and request.GET.get('q') != "":
+        q = request.GET.get("q")
+        query = SearchQuery(q, search_type="websearch")
+        tips_obj = PythonTip.objects.annotate(
+            search=SearchVector('tip')
+        ).filter(search=query).order_by("-id")
+        context["results_count"] = tips_obj.count
+        
+    # Pagination
+    paginator = Paginator(tips_obj, 15)
     tips = paginator.page(1)
     if "page" in request.GET:
         page = request.GET.get("page")
